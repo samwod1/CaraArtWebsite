@@ -3,27 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>CARA ART</title>
-    <style>
-        .title{
-            text-align: center;
-            font-size: 300%;
-        }
-        .subtitle{
-            text-align: center;
-            font-size: 200%;
-            color: black;
-        }
-        .art_title{
-            text-align: left;
-            font-size: 200%;
-            color: black;
-        }
-        .art_subtitle{
-            text-align: left;
-            font-size: 20px;
-            color: black;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="art_system.css">
+
     <script>
         function order(){
 
@@ -31,6 +12,16 @@
     </script>
 </head>
 <body>
+<div class = "header">
+
+    <div class = "logo"><img class = "gif" src="cara_art_logo.png" alt = "cara art logo"/></div>
+
+    <ul class = "navigation">
+        <li><a href="index.php" class = "home_page_link">HOME</a></li>
+        <li><a href="trackandtrace.php" class = "home_page_link">TRACK N TRACE</a></li>
+        <li><a href="admin.php" class = "home_page_link">ADMIN</a></li>
+    </ul>
+</div>
 <?php
 //TODO Make address more complicated and user friendly
 require_once "password.php";
@@ -49,7 +40,7 @@ if($conn->connect_error) {
 //querying art database
 $sql = "SELECT * FROM `art`";
 $result = $conn->query($sql);
-$id = $_GET["id"];
+$id = isset($_GET["id"])?$_GET["id"]:0;
 $artName = "";
 
 if(!$result){
@@ -69,13 +60,22 @@ if (isset($_POST["submit"])){
     $name = $_POST["name"];
     $number = $_POST["number"];
     $email = $_POST["email"];
-    $address = $_POST["address"];
+    $addressLine1 = $_POST["addressLine1"];
+    $addressLine2 = $_POST["addressLine2"];
+    $city = $_POST["city"];
+    $postcode = $_POST["postcode"];
+
     $name = $conn->real_escape_string($name);
     $number = $conn->real_escape_string($number);
     $email = $conn->real_escape_string($email);
-    $address = $conn->real_escape_string($address);
-    $sql = "INSERT INTO `orders` (`id`,`name`,`number`,`email`,`address`,`art_id`)
-            VALUES (NULL, '$name','$number','$email','$address','$id')";
+    $addressLine1 = $conn->real_escape_string($addressLine1);
+    $addressLine2 = $conn->real_escape_string($addressLine2);
+    $city = $conn->real_escape_string($city);
+    $postcode = $conn->real_escape_string($postcode);
+
+
+    $sql = "INSERT INTO `orders` (`id`,`name`,`number`,`email`,`addressLine1`,`addressLine2`,`city`,`postcode`,`art_id`)
+            VALUES (NULL, '$name','$number','$email','$addressLine1','$addressLine2','$city','$postcode','$id')";
 
     if($conn->query($sql) === TRUE){
 
@@ -83,27 +83,34 @@ if (isset($_POST["submit"])){
         die("Something went wrong: " . $conn->error);
     }
     ?>
-    <div class="title">CARA ART</div>
-    <div class="subtitle">ORDER ART</div>
-    <div><p class = "art_title"><?php echo "(".$id.") " . $artName; ?></p></div>
-    <div><p>Thank you for ordering your request has been submitted.</p></div>
+    <div class="title">ORDER ART</div>
+    <div><p class = "title"><?php echo "(".$id.") " . $artName; ?></p></div>
+    <div><p class = "title">Thank you for ordering your request has been submitted.</p></div>
+    <button class = "home_page_button"><a href = "index.php" class = "home_page_link">BACK TO HOME</a></button>
     <?php
 } else{
 ?>
-<div class="title">CARA ART</div>
-<div class="subtitle">ORDER ART</div>
+<div class="title">ORDER ART</div>
 <div>
-    <p class = "art_title"><?php echo "(".$id.") " . $artName; ?></p>
+    <p class = "title"><?php echo "(".$id.") " . $artName; ?></p>
 </div>
-<div>
-    <p class="art_subtitle">Order this artwork:</p>
-</div>
-<div>
+
+<div class = "track">
     <form method = "post" action = "<?php echo "order.php?id=".$id ?>">
-        <p>Name: <input type = "text" name = "name"></p>
-        <p>Phone-number: <input type="text" name="number"></p>
-        <p>Email: <input type = "text" name = "email"></p>
-        <p>Address: <input type = "text" name = "address"></p>
+        <p>Name</p>
+        <input type = "text" name = "name">
+        <p>Phone-number</p>
+        <input type="text" name="number">
+        <p>Email</p>
+        <input type = "text" name = "email">
+        <p>Address Line 1</p>
+        <input type = "text" name = "addressLine1">
+        <p>Address Line 2</p>
+        <input type = "text" name = "addressLine2">
+        <p>City</p>
+        <input type = "text" name = "city">
+        <p>Postcode</p>
+        <input type = "text" name = "postcode">
         <p><input type = "submit" value = "Order" name = "submit"></p>
     </form>
 </div>
