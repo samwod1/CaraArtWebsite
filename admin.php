@@ -45,8 +45,7 @@ if($password != ""){
 
 
         if($conn->connect_error) {
-            die("Connection failed: " .
-                $conn->connect_error); //FIXME THIS ONLY USE DETAILED ERROR MESSAGE WHILE DEBUGGING! (and make more polite..)
+            die("Something went wrong");
         }
 
 

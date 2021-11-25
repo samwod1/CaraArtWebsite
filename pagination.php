@@ -14,7 +14,7 @@ $conn = new mysqli($server_name, $user_name, $password,$db);
 
 if ($conn->connect_error) {
 
-    die("Connection failed: " . $conn->error);
+    die("Connection failed: ");
 }
 
 $limit = 12;

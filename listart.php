@@ -10,7 +10,7 @@ $conn = new mysqli($servername, $username, $mysqlipassword, $dbname);
 $currentPage = 0;
 
 if($conn->connect_error) {
-    die("Something went wrong while connecting to our server, please try again later. " . $conn->connect_error); //FIXME GET RID OF FOR FINAL SUBMISSION
+    die("Something went wrong while connecting to our server, please try again later. ");
 }
 
 $limit = 12;
